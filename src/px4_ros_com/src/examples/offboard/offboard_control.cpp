@@ -42,6 +42,7 @@
 #include <px4_msgs/msg/trajectory_setpoint.hpp>
 #include <px4_msgs/msg/vehicle_command.hpp>
 #include <px4_msgs/msg/vehicle_control_mode.hpp>
+#include <px4_msgs/msg/vehicle_local_position.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <stdint.h>
 
@@ -57,10 +58,33 @@ class OffboardControl : public rclcpp::Node
 public:
 	OffboardControl() : Node("offboard_control")
 	{
-
+		// publisher
 		offboard_control_mode_publisher_ = this->create_publisher<OffboardControlMode>("/fmu/in/offboard_control_mode", 10);
 		trajectory_setpoint_publisher_ = this->create_publisher<TrajectorySetpoint>("/fmu/in/trajectory_setpoint", 10);
 		vehicle_command_publisher_ = this->create_publisher<VehicleCommand>("/fmu/in/vehicle_command", 10);
+
+		// subscriber
+		msg_count =0;
+		rmw_qos_profile_t qos_profile = rmw_qos_profile_sensor_data;
+		auto qos = rclcpp::QoS(rclcpp::QoSInitialization(qos_profile.history, 5), qos_profile);
+		subscription_ = this->create_subscription<VehicleLocalPosition>("/fmu/out/vehicle_local_position", qos, 
+		[this](const VehicleLocalPosition::UniquePtr msg) {
+			if (msg_count % 100 == 0){
+				x = msg->x;
+				y = msg->y;
+				z = msg->z;
+				yaw = msg->heading;
+
+
+				std::cout << "RECEIVED VEHICLE LOCAL POSITION DATA" << std::endl;
+				std::cout << "x   = " << msg->x << std::endl; 
+				std::cout << "y   = " << msg->y << std::endl; 
+				std::cout << "z   = " << msg->z << std::endl;
+				std::cout << "yaw = " << msg->heading << std::endl;
+			}
+			msg_count++;
+		});
+
 
 		offboard_setpoint_counter_ = 0;
 		current_stage = 0;
@@ -74,24 +98,37 @@ public:
 				// Arm the vehicle
 				this->arm();
 				current_stage++;
+
+				// set take off position as home
+				// this->publish_vehicle_command(VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1);
 			}
 
 			if (offboard_setpoint_counter_ >= 10){
-				if (current_stage >= 0 && current_stage < 50){
-					this->publish_trajectory_setpoint(0.0, 0.0, -1.4, -3.14);
+				if (current_stage >= 0*delay && current_stage < 1.5*delay){
+					this->publish_trajectory_setpoint(x, y, -0.75, yaw);
 					current_stage++;
-				}else if (current_stage >= 50 && current_stage < 100){
-					this->publish_trajectory_setpoint(0.0, 6.0, -1.4, -3.14);
+				}else if (current_stage >= 1.5*delay && current_stage < 2*delay){
+					this->publish_trajectory_setpoint(x, 5.35, z, yaw);
 					current_stage++;
-				}else if (current_stage >= 100 && current_stage < 150){
-					this->publish_trajectory_setpoint(7.0, 6.0, -1.4, -3.14);
+				}else if (current_stage >= 2*delay && current_stage < 2.5*delay){
+					this->publish_trajectory_setpoint(x, y, -0.75, -3.14);
 					current_stage++;
-				}else if (current_stage >= 150 && current_stage < 200){
+				}else if (current_stage >= 2.5*delay && current_stage < 4*delay){
+					this->publish_trajectory_setpoint(8.0, y, -0.75, yaw);
+					current_stage++;
+				}else if (current_stage >= 4*delay && current_stage < 4.5*delay){
+					this->publish_trajectory_setpoint(x, y, -1.3, yaw);
+					current_stage++;
+				}else if (current_stage >= 4.5*delay && current_stage < 6*delay){
+					this->publish_trajectory_setpoint(12.0, y, -1.3, yaw);
+					current_stage++;
+				}else if (current_stage >= 6*delay && current_stage < 7*delay){
 					// this->publish_trajectory_setpoint(7.0, 6.0, 0.1, -3.14);
 					this->publish_vehicle_command(VehicleCommand::VEHICLE_CMD_NAV_LAND);
 					current_stage++;
 				}else{
 					this->disarm();
+					rclcpp::shutdown();
 				}
 
 			}
@@ -117,6 +154,9 @@ public:
 private:
 	rclcpp::TimerBase::SharedPtr timer_;
 
+	int delay =80;
+	
+	rclcpp::Subscription<VehicleLocalPosition>::SharedPtr subscription_;
 	rclcpp::Publisher<OffboardControlMode>::SharedPtr offboard_control_mode_publisher_;
 	rclcpp::Publisher<TrajectorySetpoint>::SharedPtr trajectory_setpoint_publisher_;
 	rclcpp::Publisher<VehicleCommand>::SharedPtr vehicle_command_publisher_;
@@ -126,6 +166,12 @@ private:
 	uint64_t offboard_setpoint_counter_;   //!< counter for the number of setpoints sent
 
 	int current_stage;
+	int msg_count;
+	float x;
+	float y;
+	float z;
+	float yaw;
+	// auto current_msg;
 
 	void publish_offboard_control_mode();
 	void publish_trajectory_setpoint(float x = 0.0, float y = 0.0, float z = 0.0, float yaw = 0.0);
@@ -187,7 +233,7 @@ void OffboardControl::publish_trajectory_setpoint(float x , float y, float z, fl
 	msg.yaw = yaw; // [-PI:PI]
 	msg.timestamp = this->get_clock()->now().nanoseconds() / 1000;
 	trajectory_setpoint_publisher_->publish(msg);
-	RCLCPP_INFO(this->get_logger(), "Setpoint: x=%f, y=%f, z=%f, yaw=%f" , x, y, z, yaw);
+	// RCLCPP_INFO(this->get_logger(), "Setpoint: x=%f, y=%f, z=%f, yaw=%f" , x, y, z, yaw);
 }
 
 /**
