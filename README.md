@@ -1,6 +1,11 @@
 # Tugas 4
 Solution of [Task.md](Task.md) to run drone through maze in the simulation world. This implementation uses uorb topic provided by PX4 firmware, such as ```px4_msgs/msg/trajectory_setpoint``` for guide drone to target position and ```px4_msgs/msg/vehicle_odometry``` for tracking current position. 
 
+## Clone this Repo (with the submodule)
+```bash
+git clone --recurse-submodules https://github.com/nardaiv/tugas-4-magang.git
+```
+
 ## Build and Run Simulation
 
 Run [uXRCE middleware](https://docs.px4.io/main/en/middleware/uxrce_dds.html) :
