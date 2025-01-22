@@ -98,6 +98,7 @@ public:
 
 			avg_position = this->calc_position_avg(position_arr);
 
+			// send current position and average position
 			if (msg_count % 100 == 0){
 
 				std::cout << "Current "
@@ -112,8 +113,6 @@ public:
 					<< "; z = " << avg_position.z 
 					<< "; yaw = " << avg_position.yaw 
 					<< std::endl << std::endl;
-
-				
 			}
 			msg_count++;
 		});
@@ -139,8 +138,6 @@ public:
 				current_stage++;
 			}
 
-
-
 			switch(current_stage){
 				case 1:
 					this->publish_trajectory_setpoint(
@@ -151,6 +148,8 @@ public:
 					);
 
 					if(this->is_trajectory_setpoint_completed(avg_position, target_position)){
+						RCLCPP_INFO(this->get_logger(), "Stage %d completed" , current_stage);
+						
 						// set target for stage 2
 						target_position.y += 5.2;
 						current_stage++;
@@ -167,6 +166,8 @@ public:
 					);
 
 					if(this->is_trajectory_setpoint_completed(avg_position, target_position)){
+						RCLCPP_INFO(this->get_logger(), "Stage %d completed" , current_stage);
+						
 						// set target for stage 3
 						target_position.yaw = 0.0;
 						current_stage++;
@@ -182,6 +183,8 @@ public:
 					);
 
 					if(this->is_trajectory_setpoint_completed(avg_position, target_position)){
+						RCLCPP_INFO(this->get_logger(), "Stage %d completed" , current_stage);
+						
 						// set target for stage 4
 						target_position.x += 8.0f;
 						current_stage++;
@@ -197,6 +200,8 @@ public:
 					);
 
 					if(this->is_trajectory_setpoint_completed(avg_position, target_position)){
+						RCLCPP_INFO(this->get_logger(), "Stage %d completed" , current_stage);
+
 						// set target for stage 5
 						target_position.z -= 0.75f;
 						current_stage++;
@@ -212,6 +217,8 @@ public:
 					);
 
 					if(this->is_trajectory_setpoint_completed(avg_position, target_position)){
+						RCLCPP_INFO(this->get_logger(), "Stage %d completed" , current_stage);
+						
 						// set target for stage 6
 						target_position.x += 4.0f;
 						current_stage++;
@@ -227,6 +234,8 @@ public:
 					);
 
 					if(this->is_trajectory_setpoint_completed(avg_position, target_position)){
+						RCLCPP_INFO(this->get_logger(), "Stage %d completed" , current_stage);
+						
 						// set target for stage 7
 						current_stage++;
 					}
@@ -334,7 +343,6 @@ void OffboardControl::publish_trajectory_setpoint(float x , float y, float z, fl
 	msg.yaw = yaw; // [-PI:PI]
 	msg.timestamp = this->get_clock()->now().nanoseconds() / 1000;
 	trajectory_setpoint_publisher_->publish(msg);
-	// RCLCPP_INFO(this->get_logger(), "Setpoint: x=%f, y=%f, z=%f, yaw=%f" , x, y, z, yaw);
 }
 
 /**
@@ -364,8 +372,6 @@ void OffboardControl::publish_vehicle_command(uint16_t command, float param1, fl
  */
 drone_position OffboardControl::calc_position_avg(std::vector<drone_position> arr ) const
 {
-
-
 	int len = arr.size();
 
 	std::vector<float> x, y, z;
@@ -378,6 +384,7 @@ drone_position OffboardControl::calc_position_avg(std::vector<drone_position> ar
 		yaw.push_back(element.yaw);
 	}
 
+	// calculate each average by sum it first, then divide it by len
 	float avg_x = std::accumulate(x.begin(), x.end(), 0.0f) / len;
 	float avg_y = std::accumulate(y.begin(), y.end(), 0.0f) / len;
 	float avg_z = std::accumulate(z.begin(), z.end(), 0.0f) / len;
