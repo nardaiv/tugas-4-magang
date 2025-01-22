@@ -17,12 +17,12 @@ Connect QGround Control :
 - Windows : https://docs.px4.io/main/en/dev_setup/dev_env_windows_wsl.html#qgroundcontrol
 
 
-Open PX4-AutoPilot directory, normally located in ```~/PX4-Autopilot```. Also, make sure to have place the appropriate world gazebo simulation file (with file extensition ```sdf``` ) in the PX4-AutoPilot source code, specifically in ``` Tools/simulation/gz/worlds ``` directory.
+Open a new terminal session, then navigate to PX4-AutoPilot directory, normally located in ```~/PX4-Autopilot```. Also, make sure to have place the appropriate world gazebo simulation file (with file extensition ```sdf``` ) in the PX4-AutoPilot source code, specifically in ``` Tools/simulation/gz/worlds ``` directory.
 ```bash
 cd ~/PX4-Autopilot
 make px4_sitl gz_x500_krti2024
 ```
-Open this repo directory, and then build packages. Finally run the node :
+Open a new terminal session, then navigate to this repo directory, and then build packages. Finally run the node :
 ```bash
 colcon build
 source install/setup.bash
