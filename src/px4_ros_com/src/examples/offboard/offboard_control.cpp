@@ -51,6 +51,7 @@
 #include <chrono>
 #include <iostream>
 #include <vector>
+#include <numeric>
 
 using namespace std::chrono;
 using namespace std::chrono_literals;
@@ -81,11 +82,11 @@ public:
 		subscription_ = this->create_subscription<VehicleOdometry>("/fmu/out/vehicle_odometry", qos, 
 		[this](const VehicleOdometry::UniquePtr msg) {
 
-			x = msg->position[0];
-			y = msg->position[1];
-			z = msg->position[2];
+			float x = msg->position[0];
+			float y = msg->position[1];
+			float z = msg->position[2];
 			auto eigenq = px4_ros_com::frame_transforms::utils::quaternion::array_to_eigen_quat(msg->q);
-			yaw = px4_ros_com::frame_transforms::utils::quaternion::quaternion_get_yaw(eigenq);
+			double yaw = px4_ros_com::frame_transforms::utils::quaternion::quaternion_get_yaw(eigenq);
 			
 			position_arr.push_back({x, y, z, yaw});
 
@@ -94,13 +95,22 @@ public:
 				position_arr.erase(position_arr.begin());
 			}
 
+			avg_position = this->calc_position_avg(position_arr);
+
 			if (msg_count % 100 == 0){
 
-				std::cout << "RECEIVED VEHICLE LOCAL POSITION DATA" << std::endl;
-				std::cout << "x   = " << msg->position[0] << std::endl; 
-				std::cout << "y   = " << msg->position[1] << std::endl; 
-				std::cout << "z   = " << msg->position[2] << std::endl;
-				std::cout << "yaw = " << yaw << std::endl;
+				std::cout << "Current "
+					<< " x = " << x 
+					<< "; y = " << y 
+					<< "; z = " << z 
+					<< "; yaw = " << yaw << std::endl;
+
+				std::cout << "AVG :" 
+					<< "  x = " << avg_position.x 
+					<< "; y = " << avg_position.y 
+					<< "; z = " << avg_position.z 
+					<< "; yaw = " << avg_position.yaw 
+					<< std::endl << std::endl;
 
 				
 			}
@@ -200,7 +210,7 @@ private:
 	void publish_trajectory_setpoint(float x = 0.0, float y = 0.0, float z = 0.0, float yaw = 0.0);
 	void publish_vehicle_command(uint16_t command, float param1 = 0.0, float param2 = 0.0);
 
-	// drone_position calc_position_avg(std::vector<drone_position> arr ) const;
+	drone_position calc_position_avg(std::vector<drone_position> arr ) const;
 };
 
 /**
@@ -282,7 +292,30 @@ void OffboardControl::publish_vehicle_command(uint16_t command, float param1, fl
 	vehicle_command_publisher_->publish(msg);
 }
 
+drone_position OffboardControl::calc_position_avg(std::vector<drone_position> arr ) const{
 
+
+	int len = arr.size();
+
+	std::vector<float> x, y, z;
+	std::vector<double> yaw;
+
+	for (auto element : arr){
+		x.push_back(element.x);
+		y.push_back(element.y);
+		z.push_back(element.z);
+		yaw.push_back(element.yaw);
+	}
+
+	float avg_x = std::accumulate(x.begin(), x.end(), 0.0f) / len;
+	float avg_y = std::accumulate(y.begin(), y.end(), 0.0f) / len;
+	float avg_z = std::accumulate(z.begin(), z.end(), 0.0f) / len;
+	double avg_yaw = std::accumulate(yaw.begin(), yaw.end(), 0.0) / len;
+
+	drone_position avg_position { avg_x, avg_y, avg_z, avg_yaw};
+
+	return avg_position;
+}
 
 
 int main(int argc, char *argv[])
