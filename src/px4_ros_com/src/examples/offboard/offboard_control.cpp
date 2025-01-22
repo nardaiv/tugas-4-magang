@@ -50,11 +50,19 @@
 
 #include <chrono>
 #include <iostream>
+#include <vector>
 
 using namespace std::chrono;
 using namespace std::chrono_literals;
 using namespace px4_msgs::msg;
 using namespace px4_ros_com;
+
+struct drone_position{
+	float x;
+	float y;
+	float z;
+	double yaw;
+};
 
 class OffboardControl : public rclcpp::Node
 {
@@ -72,14 +80,21 @@ public:
 		auto qos = rclcpp::QoS(rclcpp::QoSInitialization(qos_profile.history, 5), qos_profile);
 		subscription_ = this->create_subscription<VehicleOdometry>("/fmu/out/vehicle_odometry", qos, 
 		[this](const VehicleOdometry::UniquePtr msg) {
+
+			x = msg->position[0];
+			y = msg->position[1];
+			z = msg->position[2];
+			auto eigenq = px4_ros_com::frame_transforms::utils::quaternion::array_to_eigen_quat(msg->q);
+			yaw = px4_ros_com::frame_transforms::utils::quaternion::quaternion_get_yaw(eigenq);
+			
+			position_arr.push_back({x, y, z, yaw});
+
+			// if there's more than 10 latest position, remove the first one
+			if (position_arr.size() > 10){
+				position_arr.erase(position_arr.begin());
+			}
+
 			if (msg_count % 100 == 0){
-
-				x = msg->position[0];
-				y = msg->position[1];
-				z = msg->position[2];
-				auto eigenq = px4_ros_com::frame_transforms::utils::quaternion::array_to_eigen_quat(msg->q);
-				yaw = px4_ros_com::frame_transforms::utils::quaternion::quaternion_get_yaw(eigenq);
-
 
 				std::cout << "RECEIVED VEHICLE LOCAL POSITION DATA" << std::endl;
 				std::cout << "x   = " << msg->position[0] << std::endl; 
@@ -177,10 +192,15 @@ private:
 	float z;
 	double yaw = 3.14;
 	// auto current_msg;
+	drone_position target_position;
+	drone_position avg_position;
+	std::vector<drone_position> position_arr;
 
 	void publish_offboard_control_mode();
 	void publish_trajectory_setpoint(float x = 0.0, float y = 0.0, float z = 0.0, float yaw = 0.0);
 	void publish_vehicle_command(uint16_t command, float param1 = 0.0, float param2 = 0.0);
+
+	// drone_position calc_position_avg(std::vector<drone_position> arr ) const;
 };
 
 /**
@@ -261,6 +281,9 @@ void OffboardControl::publish_vehicle_command(uint16_t command, float param1, fl
 	msg.timestamp = this->get_clock()->now().nanoseconds() / 1000;
 	vehicle_command_publisher_->publish(msg);
 }
+
+
+
 
 int main(int argc, char *argv[])
 {
