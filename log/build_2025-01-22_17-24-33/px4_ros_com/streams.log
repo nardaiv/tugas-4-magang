@@ -1,0 +1,74 @@
+[0.052s] Invoking command in '/home/nardaiv/px4ros2_ws/build/px4_ros_com': CMAKE_PREFIX_PATH=/home/nardaiv/px4ros2_ws/install/px4_msgs:/home/nardaiv/px4ros2_ws/install/px4_ros_com:/opt/ros/humble LD_LIBRARY_PATH=/home/nardaiv/px4ros2_ws/install/px4_msgs/lib:/home/nardaiv/px4ros2_ws/install/px4_ros_com/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib /usr/bin/cmake --build /home/nardaiv/px4ros2_ws/build/px4_ros_com -- -j12 -l12
+[0.106s] [ 75%] Built target offboard_control_srv
+[0.106s] [ 75%] Built target sensor_combined_listener
+[0.106s] [ 75%] Built target frame_transforms
+[0.107s] [ 75%] Built target debug_vect_advertiser
+[0.107s] [ 83%] Built target vehicle_gps_position_listener
+[0.112s] [ 83%] Built target ament_cmake_python_copy_px4_ros_com
+[0.118s] [35m[1mConsolidate compiler generated dependencies of target offboard_control[0m
+[0.142s] [ 91%] [32mBuilding CXX object CMakeFiles/offboard_control.dir/src/examples/offboard/offboard_control.cpp.o[0m
+[0.328s] running egg_info
+[0.328s] writing px4_ros_com.egg-info/PKG-INFO
+[0.329s] writing dependency_links to px4_ros_com.egg-info/dependency_links.txt
+[0.329s] writing top-level names to px4_ros_com.egg-info/top_level.txt
+[0.331s] reading manifest file 'px4_ros_com.egg-info/SOURCES.txt'
+[0.332s] writing manifest file 'px4_ros_com.egg-info/SOURCES.txt'
+[0.381s] [ 91%] Built target ament_cmake_python_build_px4_ros_com_egg
+[13.134s] [100%] [32m[1mLinking CXX executable offboard_control[0m
+[13.887s] [100%] Built target offboard_control
+[13.901s] Invoked command in '/home/nardaiv/px4ros2_ws/build/px4_ros_com' returned '0': CMAKE_PREFIX_PATH=/home/nardaiv/px4ros2_ws/install/px4_msgs:/home/nardaiv/px4ros2_ws/install/px4_ros_com:/opt/ros/humble LD_LIBRARY_PATH=/home/nardaiv/px4ros2_ws/install/px4_msgs/lib:/home/nardaiv/px4ros2_ws/install/px4_ros_com/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib /usr/bin/cmake --build /home/nardaiv/px4ros2_ws/build/px4_ros_com -- -j12 -l12
+[13.903s] Invoking command in '/home/nardaiv/px4ros2_ws/build/px4_ros_com': CMAKE_PREFIX_PATH=/home/nardaiv/px4ros2_ws/install/px4_msgs:/home/nardaiv/px4ros2_ws/install/px4_ros_com:/opt/ros/humble LD_LIBRARY_PATH=/home/nardaiv/px4ros2_ws/install/px4_msgs/lib:/home/nardaiv/px4ros2_ws/install/px4_ros_com/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib /usr/bin/cmake --install /home/nardaiv/px4ros2_ws/build/px4_ros_com
+[13.912s] -- Install configuration: ""
+[13.913s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/lib/px4_ros_com/sensor_combined_listener
+[13.913s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/lib/px4_ros_com/vehicle_gps_position_listener
+[13.913s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/lib/px4_ros_com/debug_vect_advertiser
+[13.913s] -- Installing: /home/nardaiv/px4ros2_ws/install/px4_ros_com/lib/px4_ros_com/offboard_control
+[13.920s] -- Set runtime path of "/home/nardaiv/px4ros2_ws/install/px4_ros_com/lib/px4_ros_com/offboard_control" to ""
+[13.920s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/lib/px4_ros_com/offboard_control_srv
+[13.920s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com/environment/library_path.sh
+[13.920s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com/environment/library_path.dsv
+[13.920s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/include/px4_ros_com
+[13.920s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/include/px4_ros_com/frame_transforms.h
+[13.920s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/lib/libframe_transforms.so
+[13.921s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com//launch
+[13.921s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com//launch/sensor_combined_listener.launch.py
+[13.921s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com//launch/offboard_control_launch.yaml
+[13.921s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com//test
+[13.921s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com//test/test_output.py
+[13.921s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com//test/test_input.py
+[13.921s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com//test/pipeline_io_test.py
+[13.921s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com//test/__init__.py
+[13.921s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com/environment/pythonpath.sh
+[13.921s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com/environment/pythonpath.dsv
+[13.921s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/local/lib/python3.10/dist-packages/px4_ros_com-0.1.0-py3.10.egg-info
+[13.921s] -- Installing: /home/nardaiv/px4ros2_ws/install/px4_ros_com/local/lib/python3.10/dist-packages/px4_ros_com-0.1.0-py3.10.egg-info/top_level.txt
+[13.921s] -- Installing: /home/nardaiv/px4ros2_ws/install/px4_ros_com/local/lib/python3.10/dist-packages/px4_ros_com-0.1.0-py3.10.egg-info/SOURCES.txt
+[13.922s] -- Installing: /home/nardaiv/px4ros2_ws/install/px4_ros_com/local/lib/python3.10/dist-packages/px4_ros_com-0.1.0-py3.10.egg-info/dependency_links.txt
+[13.922s] -- Installing: /home/nardaiv/px4ros2_ws/install/px4_ros_com/local/lib/python3.10/dist-packages/px4_ros_com-0.1.0-py3.10.egg-info/PKG-INFO
+[13.922s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/local/lib/python3.10/dist-packages/px4_ros_com
+[13.922s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/local/lib/python3.10/dist-packages/px4_ros_com/module_to_import.py
+[13.922s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/local/lib/python3.10/dist-packages/px4_ros_com/__init__.py
+[13.950s] Listing '/home/nardaiv/px4ros2_ws/install/px4_ros_com/local/lib/python3.10/dist-packages/px4_ros_com'...
+[13.957s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/lib/px4_ros_com/offboard_control.py
+[13.957s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/ament_index/resource_index/package_run_dependencies/px4_ros_com
+[13.958s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/ament_index/resource_index/parent_prefix_path/px4_ros_com
+[13.958s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com/environment/ament_prefix_path.sh
+[13.958s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com/environment/ament_prefix_path.dsv
+[13.958s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com/environment/path.sh
+[13.958s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com/environment/path.dsv
+[13.958s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com/local_setup.bash
+[13.958s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com/local_setup.sh
+[13.958s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com/local_setup.zsh
+[13.958s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com/local_setup.dsv
+[13.959s] -- Installing: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com/package.dsv
+[13.959s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/ament_index/resource_index/packages/px4_ros_com
+[13.959s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com/cmake/export_frame_transformsExport.cmake
+[13.959s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com/cmake/export_frame_transformsExport-noconfig.cmake
+[13.959s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com/cmake/ament_cmake_export_dependencies-extras.cmake
+[13.959s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com/cmake/ament_cmake_export_targets-extras.cmake
+[13.959s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com/cmake/ament_cmake_export_include_directories-extras.cmake
+[13.959s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com/cmake/ament_cmake_export_libraries-extras.cmake
+[13.959s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com/cmake/px4_ros_comConfig.cmake
+[13.959s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com/cmake/px4_ros_comConfig-version.cmake
+[13.959s] -- Up-to-date: /home/nardaiv/px4ros2_ws/install/px4_ros_com/share/px4_ros_com/package.xml
+[13.962s] Invoked command in '/home/nardaiv/px4ros2_ws/build/px4_ros_com' returned '0': CMAKE_PREFIX_PATH=/home/nardaiv/px4ros2_ws/install/px4_msgs:/home/nardaiv/px4ros2_ws/install/px4_ros_com:/opt/ros/humble LD_LIBRARY_PATH=/home/nardaiv/px4ros2_ws/install/px4_msgs/lib:/home/nardaiv/px4ros2_ws/install/px4_ros_com/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib /usr/bin/cmake --install /home/nardaiv/px4ros2_ws/build/px4_ros_com

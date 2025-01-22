@@ -52,6 +52,7 @@
 #include <iostream>
 #include <vector>
 #include <numeric>
+#include <cstdlib>
 
 using namespace std::chrono;
 using namespace std::chrono_literals;
@@ -129,46 +130,118 @@ public:
 
 				// Arm the vehicle
 				this->arm();
-				current_stage++;
 
+				// set target for stage 1		
+				target_position.x = avg_position.x;
+				target_position.y = avg_position.y;
+				target_position.z -= 0.7f;
+				target_position.yaw = avg_position.yaw;
+				current_stage++;
 			}
 
-			if (offboard_setpoint_counter_ >= 10){
-				if (current_stage >= 0*delay && current_stage < 1.5*delay){
-					this->publish_trajectory_setpoint(x, y, -0.75, yaw);
-					current_stage++;
-				}else if (current_stage >= 1.5*delay && current_stage < 2*delay){
-					this->publish_trajectory_setpoint(x, 5.35, z, yaw);
-					current_stage++;
-				}else if (current_stage >= 2*delay && current_stage < 2.5*delay){
-					this->publish_trajectory_setpoint(x, y, -0.75, 0);
-					current_stage++;
-				}else if (current_stage >= 2.5*delay && current_stage < 4*delay){
-					this->publish_trajectory_setpoint(8.0, y, -0.75, yaw);
-					current_stage++;
-				}else if (current_stage >= 4*delay && current_stage < 4.5*delay){
-					this->publish_trajectory_setpoint(x, y, -1.3, yaw);
-					current_stage++;
-				}else if (current_stage >= 4.5*delay && current_stage < 6*delay){
-					this->publish_trajectory_setpoint(12.0, y, -1.3, yaw);
-					current_stage++;
-				}else if (current_stage >= 6*delay && current_stage < 7*delay){
-					// this->publish_trajectory_setpoint(7.0, 6.0, 0.1, -3.14);
-					this->publish_vehicle_command(VehicleCommand::VEHICLE_CMD_NAV_LAND);
-					current_stage++;
-				}else{
-					this->disarm();
-					rclcpp::shutdown();
-				}
 
+
+			switch(current_stage){
+				case 1:
+					this->publish_trajectory_setpoint(
+						target_position.x, 
+						target_position.y,
+						target_position.z,
+						target_position.yaw
+					);
+
+					if(this->is_trajectory_setpoint_completed(avg_position, target_position)){
+						// set target for stage 2
+						target_position.y += 5.2;
+						current_stage++;
+					}
+
+					break;
+					
+				case 2:
+					this->publish_trajectory_setpoint(
+						target_position.x, 
+						target_position.y,
+						target_position.z,
+						target_position.yaw
+					);
+
+					if(this->is_trajectory_setpoint_completed(avg_position, target_position)){
+						// set target for stage 3
+						target_position.yaw = 0.0;
+						current_stage++;
+					}
+					break;
+
+				case 3:
+					this->publish_trajectory_setpoint(
+						target_position.x, 
+						target_position.y,
+						target_position.z,
+						target_position.yaw
+					);
+
+					if(this->is_trajectory_setpoint_completed(avg_position, target_position)){
+						// set target for stage 4
+						target_position.x += 8.0f;
+						current_stage++;
+					}
+					break;
+
+				case 4:
+					this->publish_trajectory_setpoint(
+						target_position.x, 
+						target_position.y,
+						target_position.z,
+						target_position.yaw
+					);
+
+					if(this->is_trajectory_setpoint_completed(avg_position, target_position)){
+						// set target for stage 5
+						target_position.z -= 0.75f;
+						current_stage++;
+					}
+					break;
+
+				case 5:
+					this->publish_trajectory_setpoint(
+						target_position.x, 
+						target_position.y,
+						target_position.z,
+						target_position.yaw
+					);
+
+					if(this->is_trajectory_setpoint_completed(avg_position, target_position)){
+						// set target for stage 6
+						target_position.x += 4.0f;
+						current_stage++;
+					}
+					break;
+
+				case 6:
+					this->publish_trajectory_setpoint(
+						target_position.x, 
+						target_position.y,
+						target_position.z,
+						target_position.yaw
+					);
+
+					if(this->is_trajectory_setpoint_completed(avg_position, target_position)){
+						// set target for stage 7
+						current_stage++;
+					}
+					break;
+				
+				case 7:
+					this->publish_vehicle_command(VehicleCommand::VEHICLE_CMD_NAV_LAND);
+					break;
+
+				default:
+					break;
 			}
 		
-
-
-
 			// offboard_control_mode needs to be paired with trajectory_setpoint
 			publish_offboard_control_mode();
-			// publish_trajectory_setpoint();
 
 			// stop the counter after reaching 11
 			if (offboard_setpoint_counter_ < 11) {
@@ -197,11 +270,7 @@ private:
 
 	int current_stage;
 	int msg_count;
-	float x;
-	float y;
-	float z;
-	double yaw = 3.14;
-	// auto current_msg;
+
 	drone_position target_position;
 	drone_position avg_position;
 	std::vector<drone_position> position_arr;
@@ -211,6 +280,7 @@ private:
 	void publish_vehicle_command(uint16_t command, float param1 = 0.0, float param2 = 0.0);
 
 	drone_position calc_position_avg(std::vector<drone_position> arr ) const;
+	bool is_trajectory_setpoint_completed(drone_position avg, drone_position target) const;
 };
 
 /**
@@ -251,8 +321,6 @@ void OffboardControl::publish_offboard_control_mode()
 
 /**
  * @brief Publish a trajectory setpoint
- *        For this example, it sends a trajectory setpoint to make the
- *        vehicle hover at 5 meters with a yaw angle of 180 degrees.
  * 
  * @param x		move in x axis - positive north, negative south
  * @param y		move in y axis - positive east, negative west
@@ -262,9 +330,7 @@ void OffboardControl::publish_offboard_control_mode()
 void OffboardControl::publish_trajectory_setpoint(float x , float y, float z, float yaw)
 {
 	TrajectorySetpoint msg{};
-	// msg.position = {0.0, 5.0, -1.4};
 	msg.position = {x, y, z};
-	// msg.yaw = -3.14; // [-PI:PI]
 	msg.yaw = yaw; // [-PI:PI]
 	msg.timestamp = this->get_clock()->now().nanoseconds() / 1000;
 	trajectory_setpoint_publisher_->publish(msg);
@@ -292,7 +358,12 @@ void OffboardControl::publish_vehicle_command(uint16_t command, float param1, fl
 	vehicle_command_publisher_->publish(msg);
 }
 
-drone_position OffboardControl::calc_position_avg(std::vector<drone_position> arr ) const{
+/**
+ * @brief Calculate average position
+ * @param arr   vector of drone_position struct
+ */
+drone_position OffboardControl::calc_position_avg(std::vector<drone_position> arr ) const
+{
 
 
 	int len = arr.size();
@@ -315,6 +386,25 @@ drone_position OffboardControl::calc_position_avg(std::vector<drone_position> ar
 	drone_position avg_position { avg_x, avg_y, avg_z, avg_yaw};
 
 	return avg_position;
+}
+
+/**
+ * @brief Check if the trajectory is achived
+ * @param avg   	average position
+ * @param target	target position   
+ */
+bool OffboardControl::is_trajectory_setpoint_completed(drone_position avg, drone_position target) const
+{
+	if (std::abs(avg.x - target.x) < 0.1
+		&& std::abs(avg.y - target.y) < 0.1
+		&& std::abs(avg.z - target.z) < 0.1
+		&& std::abs(avg.yaw - target.yaw) < 0.05
+	) {
+		return true;
+
+	}else{
+		return false;
+	}
 }
 
 
