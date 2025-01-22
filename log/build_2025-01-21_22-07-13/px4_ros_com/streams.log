@@ -1,0 +1,36 @@
+[0.056s] Invoking command in '/home/nardaiv/px4ros2_ws/build/px4_ros_com': CMAKE_PREFIX_PATH=/home/nardaiv/px4ros2_ws/install/px4_msgs:/home/nardaiv/px4ros2_ws/install/px4_ros_com:/opt/ros/humble LD_LIBRARY_PATH=/home/nardaiv/px4ros2_ws/install/px4_msgs/lib:/home/nardaiv/px4ros2_ws/install/px4_ros_com/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib /usr/bin/cmake --build /home/nardaiv/px4ros2_ws/build/px4_ros_com -- -j12 -l12
+[0.096s] [35m[1mConsolidate compiler generated dependencies of target offboard_control[0m
+[0.108s] [ 58%] Built target frame_transforms
+[0.108s] [ 58%] Built target debug_vect_advertiser
+[0.108s] [ 58%] Built target sensor_combined_listener
+[0.108s] [ 66%] Built target vehicle_gps_position_listener
+[0.109s] [ 83%] Built target offboard_control_srv
+[0.115s] [ 83%] Built target ament_cmake_python_copy_px4_ros_com
+[0.117s] [ 91%] [32mBuilding CXX object CMakeFiles/offboard_control.dir/src/examples/offboard/offboard_control.cpp.o[0m
+[0.332s] running egg_info
+[0.332s] writing px4_ros_com.egg-info/PKG-INFO
+[0.333s] writing dependency_links to px4_ros_com.egg-info/dependency_links.txt
+[0.333s] writing top-level names to px4_ros_com.egg-info/top_level.txt
+[0.336s] reading manifest file 'px4_ros_com.egg-info/SOURCES.txt'
+[0.336s] writing manifest file 'px4_ros_com.egg-info/SOURCES.txt'
+[0.378s] [ 91%] Built target ament_cmake_python_build_px4_ros_com_egg
+[2.856s] [01m[K/home/nardaiv/px4ros2_ws/src/px4_ros_com/src/examples/offboard/offboard_control.cpp:[m[K In constructor ‘[01m[KOffboardControl::OffboardControl()[m[K’:
+[2.856s] [01m[K/home/nardaiv/px4ros2_ws/src/px4_ros_com/src/examples/offboard/offboard_control.cpp:70:59:[m[K [01;31m[Kerror: [m[K‘[01m[KVehicleOdometry[m[K’ was not declared in this scope
+[2.856s]    70 |                 subscription_ = this->create_subscription<[01;31m[KVehicleOdometry[m[K>("/fmu/out/vehicle_odometry", qos,
+[2.856s]       |                                                           [01;31m[K^~~~~~~~~~~~~~~[m[K
+[2.859s] [01m[K/home/nardaiv/px4ros2_ws/src/px4_ros_com/src/examples/offboard/offboard_control.cpp:71:30:[m[K [01;31m[Kerror: [m[K‘[01m[KVehicleOdometry[m[K’ does not name a type
+[2.859s]    71 |                 [this](const [01;31m[KVehicleOdometry[m[K::UniquePtr msg) {
+[2.859s]       |                              [01;31m[K^~~~~~~~~~~~~~~[m[K
+[2.859s] [01m[K/home/nardaiv/px4ros2_ws/src/px4_ros_com/src/examples/offboard/offboard_control.cpp:[m[K In lambda function:
+[2.859s] [01m[K/home/nardaiv/px4ros2_ws/src/px4_ros_com/src/examples/offboard/offboard_control.cpp:100:19:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K{[m[K’ before ‘[01m[K;[m[K’ token
+[2.860s]   100 |                 })[01;31m[K;[m[K
+[2.860s]       |                   [01;31m[K^[m[K
+[2.860s] [01m[K/home/nardaiv/px4ros2_ws/src/px4_ros_com/src/examples/offboard/offboard_control.cpp:[m[K In constructor ‘[01m[KOffboardControl::OffboardControl()[m[K’:
+[2.860s] [01m[K/home/nardaiv/px4ros2_ws/src/px4_ros_com/src/examples/offboard/offboard_control.cpp:100:19:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K)[m[K’ before ‘[01m[K;[m[K’ token
+[2.860s] [01m[K/home/nardaiv/px4ros2_ws/src/px4_ros_com/src/examples/offboard/offboard_control.cpp:70:75:[m[K [01;36m[Knote: [m[Kto match this ‘[01m[K([m[K’
+[2.860s]    70 |                 subscription_ = this->create_subscription<VehicleOdometry>[01;36m[K([m[K"/fmu/out/vehicle_odometry", qos,
+[2.860s]       |                                                                           [01;36m[K^[m[K
+[4.145s] gmake[2]: *** [CMakeFiles/offboard_control.dir/build.make:76: CMakeFiles/offboard_control.dir/src/examples/offboard/offboard_control.cpp.o] Error 1
+[4.145s] gmake[1]: *** [CMakeFiles/Makefile2:254: CMakeFiles/offboard_control.dir/all] Error 2
+[4.146s] gmake: *** [Makefile:146: all] Error 2
+[4.149s] Invoked command in '/home/nardaiv/px4ros2_ws/build/px4_ros_com' returned '2': CMAKE_PREFIX_PATH=/home/nardaiv/px4ros2_ws/install/px4_msgs:/home/nardaiv/px4ros2_ws/install/px4_ros_com:/opt/ros/humble LD_LIBRARY_PATH=/home/nardaiv/px4ros2_ws/install/px4_msgs/lib:/home/nardaiv/px4ros2_ws/install/px4_ros_com/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib /usr/bin/cmake --build /home/nardaiv/px4ros2_ws/build/px4_ros_com -- -j12 -l12

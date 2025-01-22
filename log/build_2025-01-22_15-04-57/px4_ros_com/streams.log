@@ -1,0 +1,28 @@
+[0.055s] Invoking command in '/home/nardaiv/px4ros2_ws/build/px4_ros_com': AMENT_PREFIX_PATH=/home/nardaiv/px4ros2_ws/install/px4_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/nardaiv/px4ros2_ws/install/px4_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/nardaiv/px4ros2_ws/install/px4_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/nardaiv/px4ros2_ws/install/px4_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/nardaiv/px4ros2_ws/build/px4_ros_com -- -j12 -l12
+[0.077s] -- Found ament_cmake: 1.3.11 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.182s] -- Found builtin_interfaces: 1.2.1 (/opt/ros/humble/share/builtin_interfaces/cmake)
+[0.298s] -- Found rosidl_generator_c: 3.1.6 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.300s] -- Found rosidl_adapter: 3.1.6 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.305s] -- Found rosidl_generator_cpp: 3.1.6 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.314s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.324s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.334s] -- Found eigen3_cmake_module: 0.1.1 (/opt/ros/humble/share/eigen3_cmake_module/cmake)
+[0.335s] -- Found geometry_msgs: 4.2.4 (/opt/ros/humble/share/geometry_msgs/cmake)
+[0.358s] -- Found px4_msgs: 2.0.1 (/home/nardaiv/px4ros2_ws/install/px4_msgs/share/px4_msgs/cmake)
+[0.372s] -- Found rclcpp: 16.0.11 (/opt/ros/humble/share/rclcpp/cmake)
+[0.394s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.395s] -- Found rmw_fastrtps_cpp: 6.2.7 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[3.249s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[3.283s] -- Found sensor_msgs: 4.2.4 (/opt/ros/humble/share/sensor_msgs/cmake)
+[3.297s] -- Found rclpy: 3.3.15 (/opt/ros/humble/share/rclpy/cmake)
+[3.300s] [31mCMake Error at /opt/ros/humble/share/ament_cmake_target_dependencies/cmake/ament_target_dependencies.cmake:77 (message):
+[3.300s]   ament_target_dependencies() the passed package name 'frame_transforms' was
+[3.300s]   not found before
+[3.300s] Call Stack (most recent call first):
+[3.300s]   CMakeLists.txt:62 (ament_target_dependencies)
+[3.301s] 
+[3.301s] [0m
+[3.301s] -- Configuring incomplete, errors occurred!
+[3.301s] See also "/home/nardaiv/px4ros2_ws/build/px4_ros_com/CMakeFiles/CMakeOutput.log".
+[3.307s] gmake: *** [Makefile:500: cmake_check_build_system] Error 1
+[3.310s] Invoked command in '/home/nardaiv/px4ros2_ws/build/px4_ros_com' returned '2': AMENT_PREFIX_PATH=/home/nardaiv/px4ros2_ws/install/px4_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/nardaiv/px4ros2_ws/install/px4_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/nardaiv/px4ros2_ws/install/px4_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/nardaiv/px4ros2_ws/install/px4_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/nardaiv/px4ros2_ws/build/px4_ros_com -- -j12 -l12

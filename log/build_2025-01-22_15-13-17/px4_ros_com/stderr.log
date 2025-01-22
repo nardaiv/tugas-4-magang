@@ -1,0 +1,12 @@
+[01m[K/home/nardaiv/px4ros2_ws/src/px4_ros_com/src/examples/offboard/offboard_control.cpp:[m[K In lambda function:
+[01m[K/home/nardaiv/px4ros2_ws/src/px4_ros_com/src/examples/offboard/offboard_control.cpp:79:113:[m[K [01;31m[Kerror: [m[Kinvalid initialization of reference of type ‘[01m[Kconst Quaterniond&[m[K’ {aka ‘[01m[Kconst Eigen::Quaternion<double>&[m[K’} from expression of type ‘[01m[Kpx4_msgs::msg::VehicleOdometry_<std::allocator<void> >::_q_type[m[K’ {aka ‘[01m[Kstd::array<float, 4>[m[K’}
+   79 | rame_transforms::utils::quaternion::quaternion_get_yaw([01;31m[Kmsg->q[m[K);
+      |                                                        [01;31m[K~~~~~^[m[K
+
+In file included from [01m[K/home/nardaiv/px4ros2_ws/src/px4_ros_com/src/examples/offboard/offboard_control.cpp:46[m[K:
+[01m[K/home/nardaiv/px4ros2_ws/src/px4_ros_com/include/px4_ros_com/frame_transforms.h:139:53:[m[K [01;36m[Knote: [m[Kin passing argument 1 of ‘[01m[Kdouble px4_ros_com::frame_transforms::utils::quaternion::quaternion_get_yaw(const Quaterniond&)[m[K’
+  139 | double quaternion_get_yaw([01;36m[Kconst Eigen::Quaterniond &q[m[K);
+      |                           [01;36m[K~~~~~~~~~~~~~~~~~~~~~~~~~~^[m[K
+gmake[2]: *** [CMakeFiles/offboard_control.dir/build.make:76: CMakeFiles/offboard_control.dir/src/examples/offboard/offboard_control.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:254: CMakeFiles/offboard_control.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

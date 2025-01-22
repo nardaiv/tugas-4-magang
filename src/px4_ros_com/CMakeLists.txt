@@ -38,6 +38,7 @@ ament_target_dependencies(frame_transforms Eigen3 geometry_msgs sensor_msgs)
 target_include_directories(frame_transforms PUBLIC
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}>
 	$<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+	$<BUILD_INTERFACE:${ament_index_build_path}/include>  # Add this to ensure ROS 2 include paths
 )
 
 
@@ -58,7 +59,8 @@ install(TARGETS debug_vect_advertiser DESTINATION lib/${PROJECT_NAME})
 
 # examples/offboard/offboard_control
 add_executable(offboard_control src/examples/offboard/offboard_control.cpp)
-ament_target_dependencies(offboard_control rclcpp px4_msgs)
+target_link_libraries(offboard_control frame_transforms)
+ament_target_dependencies(offboard_control rclcpp px4_msgs Eigen3 geometry_msgs sensor_msgs)
 install(TARGETS offboard_control DESTINATION lib/${PROJECT_NAME})
 
 # examples/offboard/offboard_control_srv

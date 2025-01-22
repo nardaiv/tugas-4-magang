@@ -42,9 +42,11 @@
 #include <px4_msgs/msg/trajectory_setpoint.hpp>
 #include <px4_msgs/msg/vehicle_command.hpp>
 #include <px4_msgs/msg/vehicle_control_mode.hpp>
-#include <px4_msgs/msg/vehicle_local_position.hpp>
+#include <px4_msgs/msg/vehicle_odometry.hpp>
+#include <px4_ros_com/frame_transforms.h>
 #include <rclcpp/rclcpp.hpp>
 #include <stdint.h>
+#include <eigen3/Eigen/Eigen>
 
 #include <chrono>
 #include <iostream>
@@ -52,6 +54,7 @@
 using namespace std::chrono;
 using namespace std::chrono_literals;
 using namespace px4_msgs::msg;
+using namespace px4_ros_com;
 
 class OffboardControl : public rclcpp::Node
 {
@@ -67,20 +70,24 @@ public:
 		msg_count =0;
 		rmw_qos_profile_t qos_profile = rmw_qos_profile_sensor_data;
 		auto qos = rclcpp::QoS(rclcpp::QoSInitialization(qos_profile.history, 5), qos_profile);
-		subscription_ = this->create_subscription<VehicleLocalPosition>("/fmu/out/vehicle_local_position", qos, 
-		[this](const VehicleLocalPosition::UniquePtr msg) {
+		subscription_ = this->create_subscription<VehicleOdometry>("/fmu/out/vehicle_odometry", qos, 
+		[this](const VehicleOdometry::UniquePtr msg) {
 			if (msg_count % 100 == 0){
-				x = msg->x;
-				y = msg->y;
-				z = msg->z;
-				yaw = msg->heading;
+
+				x = msg->position[0];
+				y = msg->position[1];
+				z = msg->position[2];
+				auto eigenq = px4_ros_com::frame_transforms::utils::quaternion::array_to_eigen_quat(msg->q);
+				yaw = px4_ros_com::frame_transforms::utils::quaternion::quaternion_get_yaw(eigenq);
 
 
 				std::cout << "RECEIVED VEHICLE LOCAL POSITION DATA" << std::endl;
-				std::cout << "x   = " << msg->x << std::endl; 
-				std::cout << "y   = " << msg->y << std::endl; 
-				std::cout << "z   = " << msg->z << std::endl;
-				std::cout << "yaw = " << msg->heading << std::endl;
+				std::cout << "x   = " << msg->position[0] << std::endl; 
+				std::cout << "y   = " << msg->position[1] << std::endl; 
+				std::cout << "z   = " << msg->position[2] << std::endl;
+				std::cout << "yaw = " << yaw << std::endl;
+
+				
 			}
 			msg_count++;
 		});
@@ -99,8 +106,6 @@ public:
 				this->arm();
 				current_stage++;
 
-				// set take off position as home
-				// this->publish_vehicle_command(VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1);
 			}
 
 			if (offboard_setpoint_counter_ >= 10){
@@ -111,7 +116,7 @@ public:
 					this->publish_trajectory_setpoint(x, 5.35, z, yaw);
 					current_stage++;
 				}else if (current_stage >= 2*delay && current_stage < 2.5*delay){
-					this->publish_trajectory_setpoint(x, y, -0.75, -3.14);
+					this->publish_trajectory_setpoint(x, y, -0.75, 0);
 					current_stage++;
 				}else if (current_stage >= 2.5*delay && current_stage < 4*delay){
 					this->publish_trajectory_setpoint(8.0, y, -0.75, yaw);
@@ -156,7 +161,7 @@ private:
 
 	int delay =80;
 	
-	rclcpp::Subscription<VehicleLocalPosition>::SharedPtr subscription_;
+	rclcpp::Subscription<VehicleOdometry>::SharedPtr subscription_;
 	rclcpp::Publisher<OffboardControlMode>::SharedPtr offboard_control_mode_publisher_;
 	rclcpp::Publisher<TrajectorySetpoint>::SharedPtr trajectory_setpoint_publisher_;
 	rclcpp::Publisher<VehicleCommand>::SharedPtr vehicle_command_publisher_;
@@ -170,7 +175,7 @@ private:
 	float x;
 	float y;
 	float z;
-	float yaw;
+	double yaw = 3.14;
 	// auto current_msg;
 
 	void publish_offboard_control_mode();
